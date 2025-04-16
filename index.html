@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Box Slide</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body{
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        height: 700px;
+        
+    }
+
+    .boxs{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .boxborder{
+        border:  6px solid black;
+        text-align: center;
+        display: grid;
+        width: 628px;
+        height: 635px;
+        grid-template-columns: repeat(3, 199px) ;
+        background-color: white;
+        gap: 10px;
+    }
+    .item{
+       border: 1px solid darkgray;
+       font-size: 40px;
+       border-radius: 17px;
+       display: flex;
+       background-color:yellow;
+       width: 30px;
+       align-items: center;
+       width: 200px;
+       cursor: pointer;
+       justify-content: center;
+       
+    }
+    .item:active{
+        box-shadow: 0 0 0px 0,5px black;
+        transform: scale(0.8);
+    }
+
+    .empty{
+        background-color:red;
+        border-radius: 17px;
+        cursor: default;
+    
+    }
+
+    
+
+</style>
+
+<body>
+    <div class="boxs"></div>
+    <div class="boxborder">
+        <div class="item" data-index="0">1</div>
+        <div class="item "data-index="5">6</div>
+        <div class="item "data-index="6">7</div>
+        <div class="item "data-index="1">2</div>
+        <div class=" item empty" data-index ="1"></div>
+        <div class="item "data-index="2">3</div>
+        <div class="item "data-index="3">4</div>
+        <div class="item "data-index="4">5</div>
+        <div class="item "data-index="7">8</div>
+    </div>
+</body>
+
+<script>
+    // berfungsi untuk memastikan bahwa seluruh elemen HTML pada halaman telah dimuat oleh browser
+document.addEventListener('DOMContentLoaded', function(){ 
+    // berfungsi untuk mengambil semua elemen HTML yang memiliki class item dan boxborder.
+    // (....) ?
+    const items =[...document.querySelectorAll('.item')];
+    const boxborder= document.querySelector('.boxborder');
+    // menghitung index yaitu kolom dan baris pada index 1 dan 2
+    const kotak =(index1,index2)=>{
+    const[row1,col1]= [Math.floor(index1/3), index1%3];
+    const[row2,col2] =[Math.floor(index2/3),index2%3];
+    return Math.abs(row1 - row2)+ Math.abs(col1 - col2)===1;
+    }
+    // menambah dan menghapus kelas empty
+    const swapItem =(item1,item2)=>{
+        [item1.innerHTML,item2.innerHTML]=[item2.innerHTML,item1.innerHTML];
+        item1.classList.toggle("empty");
+        item2.classList.toggle("empty");
+    }
+    // Menjalankan fungsi klik pada empty
+    boxborder.addEventListener("click", e=>{
+        const item = e.target;
+        if(!item.classList.contains("empty")) 
+        {
+            const emptyitem = items.find(item => item.classList.contains("empty"));
+            const itemIndex= items.indexOf(item);
+            const emptyIndex = items.indexOf(emptyitem);
+            if(kotak(itemIndex,emptyIndex))
+        {
+            swapItem(item,emptyitem)
+        }
+        }
+
+    })
+
+});
+
+</script>
+
+</html>
